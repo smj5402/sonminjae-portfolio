@@ -1,0 +1,314 @@
+1. 초기화 및 리셋 (Initialization & Reset)
+$time = 0:
+
+clk = 0, rst_n = 1
+
+predict_valid = 0, predict_pc = 7'b0, train_valid = 0, train_taken = 0, train_mispredicted = 0, train_history = 7'b0, train_pc = 7'b0, saved_predict_history = 7'b0. 모든 입력 reg 신호들이 초기값으로 설정됩니다.
+
+DUT 내부:
+
+r_predict_history (GHR 레지스터)는 7'b0으로 초기화됩니다.
+
+PHT (Pattern History Table)의 모든 128개 엔트리는 2'b01 (Weakly Not Taken)으로 초기화됩니다.
+
+predict_history (wire)는 r_predict_history의 초기값인 7'b0을 즉시 반영합니다.
+
+predict_taken (wire)은 PHT[0^0][1] 즉 PHT[0][1]이 01이므로 0을 반영합니다.
+
+$time = 20:
+
+rst_n = 0 (리셋 신호 인가).
+
+DUT 내부의 모든 레지스터(r_predict_history, PHT 엔트리 등)가 다시 초기값으로 강제 설정됩니다.
+
+$time = 30:
+
+rst_n = 1 (리셋 해제).
+
+DUT는 이제 예측 및 훈련을 수행할 준비가 됩니다.
+
+2. 첫 번째 시나리오: PC=10 예측 실패 (실제 Taken)
+$time = 30: $display("[1] Predict PC=10, 예측 실패 (실제 taken)"); 메시지가 출력됩니다.
+
+predict_phase(7'd10); 태스크 호출:
+
+$time = 35 (@negedge clk):
+
+predict_valid = 1; (예측 요청 시작)
+
+predict_pc = 7'd10;
+
+이 시점에서 DUT는 예측을 수행합니다:
+
+현재 GHR (r_predict_history): 7'b0 (리셋 후 초기값)
+
+예측 인덱스: predict_pc ^ predict_history = 7'd10 ^ 7'b0 = 7'd10
+
+predict_taken (예측 결과): PHT[7'd10][1] = 2'b01[1] = 0 (Not Taken으로 예측)
+
+predict_history (wire): r_predict_history의 현재 값인 7'b0을 유지합니다.
+
+saved_predict_history = predict_history;
+
+saved_predict_history에 7'b0이 저장됩니다. 이것이 PC=10에 대한 예측이 수행되었을 당시의 GHR 스냅샷입니다.
+
+$time = 40 (@posedge clk):
+
+DUT 내부의 GHR (r_predict_history) 업데이트: predict_valid가 1이고, train_valid && train_mispredicted가 0이므로, else if (predict_valid) 블록이 실행됩니다.
+
+r_predict_history <= { predict_history[5:0], predict_taken};
+
+predict_history (wire)는 $time=35 시점의 7'b0이고, predict_taken은 0이었으므로,
+
+r_predict_history는 7'b000_0000 ({7'b0[5:0], 0})으로 업데이트됩니다. (여전히 7'b0)
+
+$time = 45 (@negedge clk):
+
+predict_valid = 0; (예측 요청 해제)
+
+train_phase(7'd10, 1'b1, 1'b1); 태스크 호출: (PC=10, 실제 Taken, 미스예측)
+
+$time = 55 (@negedge clk):
+
+train_valid = 1; (훈련 요청 시작)
+
+train_pc = 7'd10;
+
+train_taken = 1; (실제 분기 결과는 Taken)
+
+train_mispredicted = 1; (이전 예측 predict_taken=0과 실제 결과 train_taken=1이 다르므로 미스예측)
+
+train_history = saved_predict_history;
+
+train_history에 saved_predict_history 값인 7'b0이 할당됩니다.
+
+$time = 60 (@posedge clk):
+
+DUT 내부의 PHT 훈련 및 GHR 복구:
+
+train_valid = 1이고, train_mispredicted = 1이므로 GHR 복구 로직이 실행됩니다.
+
+r_predict_history <= { train_history[5:0], train_taken};
+
+train_history는 7'b0이고, train_taken은 1이었으므로,
+
+r_predict_history는 7'b000_0001 ({7'b0[5:0], 1})으로 업데이트됩니다.
+
+PHT 업데이트:
+
+훈련 인덱스: train_pc ^ train_history = 7'd10 ^ 7'b0 = 7'd10
+
+train_taken = 1이었으므로, PHT[7'd10] 엔트리는 2'b01 (Weakly Not Taken)에서 2'b10 (Weakly Taken)으로 상태가 변경됩니다.
+
+$time = 65 (@negedge clk):
+
+train_valid = 0; (훈련 요청 해제)
+
+3. 두 번째 시나리오: PC=10 예측 성공 (실제 Not Taken)
+$time = 70: $display("[2] Predict PC=10, 예측 성공 (실제 taken)"); 메시지가 출력됩니다.
+
+참고: 당신의 의도(mispredicted = 0 고정, 예측 성공 가정)를 반영하기 위해, 이 시나리오에서는 실제 결과(train_taken)를 0으로 설정할 것입니다. 따라서 출력 메시지는 "예측 성공 (실제 Not Taken)"으로 생각해주세요.
+
+predict_phase(7'd10); 태스크 호출:
+
+$time = 75 (@negedge clk):
+
+predict_valid = 1; predict_pc = 7'd10;
+
+이 시점에서 DUT는 예측을 수행합니다:
+
+현재 GHR (r_predict_history): 7'b000_0001 (이전 훈련에서 복구된 값)
+
+예측 인덱스: predict_pc ^ predict_history = 7'd10 ^ 7'b000_0001 = 7'd11
+
+predict_taken (예측 결과): PHT[7'd11][1] = 2'b01[1] = 0 (Not Taken으로 예측) (PHT[11]은 아직 초기값)
+
+predict_history (wire): r_predict_history의 현재 값인 7'b000_0001을 유지합니다.
+
+saved_predict_history = predict_history;
+
+saved_predict_history에 7'b000_0001이 저장됩니다.
+
+$time = 80 (@posedge clk):
+
+DUT 내부의 GHR (r_predict_history) 업데이트: predict_valid가 1이므로 GHR 업데이트.
+
+r_predict_history <= { predict_history[5:0], predict_taken};
+
+predict_history (wire)는 $time=75 시점의 7'b000_0001이고, predict_taken은 0이었으므로,
+
+r_predict_history는 7'b000_0010 ({7'b000_0001[5:0], 0})으로 업데이트됩니다.
+
+$time = 85 (@negedge clk):
+
+predict_valid = 0;
+
+train_phase(7'd10, 1'b0, 1'b0); 태스크 호출: (PC=10, 실제 Not Taken, 예측 성공)
+
+$time = 95 (@negedge clk):
+
+train_valid = 1; train_pc = 7'd10;
+
+train_taken = 0; (실제 분기 결과는 Not Taken)
+
+train_mispredicted = 0; (이전 예측 predict_taken=0과 실제 결과 train_taken=0이 같으므로 예측 성공)
+
+train_history = saved_predict_history;
+
+train_history에 saved_predict_history 값인 7'b000_0001이 할당됩니다.
+
+$time = 100 (@posedge clk):
+
+DUT 내부의 PHT 훈련:
+
+train_valid = 1이지만, train_mispredicted = 0이므로 GHR 복구 로직은 실행되지 않습니다. r_predict_history는 이전 값 7'b000_0010을 유지합니다.
+
+PHT 업데이트:
+
+훈련 인덱스: train_pc ^ train_history = 7'd10 ^ 7'b000_0001 = 7'd11
+
+train_taken = 0이었으므로, PHT[7'd11] 엔트리는 2'b01 (Weakly Not Taken)에서 2'b00 (Strongly Not Taken)으로 상태가 변경됩니다.
+
+$time = 105 (@negedge clk):
+
+train_valid = 0;
+
+4. 세 번째 시나리오: PC=20 예측 성공 (실제 Not Taken)
+$time = 110: $display("[3] Predict PC=20, 예측 성공 (실제 not taken)"); 메시지가 출력됩니다.
+
+predict_phase(7'd20); 태스크 호출:
+
+$time = 115 (@negedge clk):
+
+predict_valid = 1; predict_pc = 7'd20;
+
+이 시점에서 DUT는 예측을 수행합니다:
+
+현재 GHR (r_predict_history): 7'b000_0010
+
+예측 인덱스: predict_pc ^ predict_history = 7'd20 ^ 7'b000_0010 = 7'd22
+
+predict_taken (예측 결과): PHT[7'd22][1] = 2'b01[1] = 0 (Not Taken으로 예측) (PHT[22]는 아직 초기값)
+
+predict_history (wire): r_predict_history의 현재 값인 7'b000_0010을 유지합니다.
+
+saved_predict_history = predict_history;
+
+saved_predict_history에 7'b000_0010이 저장됩니다.
+
+$time = 120 (@posedge clk):
+
+DUT 내부의 GHR (r_predict_history) 업데이트:
+
+r_predict_history <= { predict_history[5:0], predict_taken};
+
+predict_history (wire)는 $time=115 시점의 7'b000_0010이고, predict_taken은 0이었으므로,
+
+r_predict_history는 7'b000_0100 ({7'b000_0010[5:0], 0})으로 업데이트됩니다.
+
+$time = 125 (@negedge clk):
+
+predict_valid = 0;
+
+train_phase(7'd20, 1'b0, 1'b0); 태스크 호출: (PC=20, 실제 Not Taken, 예측 성공)
+
+$time = 135 (@negedge clk):
+
+train_valid = 1; train_pc = 7'd20;
+
+train_taken = 0; (실제 분기 결과는 Not Taken)
+
+train_mispredicted = 0; (이전 예측 predict_taken=0과 실제 결과 train_taken=0이 같으므로 예측 성공)
+
+train_history = saved_predict_history;
+
+train_history에 saved_predict_history 값인 7'b000_0010이 할당됩니다.
+
+$time = 140 (@posedge clk):
+
+DUT 내부의 PHT 훈련:
+
+train_valid = 1이지만 train_mispredicted = 0이므로 GHR 복구 로직은 실행되지 않습니다. r_predict_history는 이전 값 7'b000_0100을 유지합니다.
+
+PHT 업데이트:
+
+훈련 인덱스: train_pc ^ train_history = 7'd20 ^ 7'b000_0010 = 7'd22
+
+train_taken = 0이었으므로, PHT[7'd22] 엔트리는 2'b01 (Weakly Not Taken)에서 2'b00 (Strongly Not Taken)으로 상태가 변경됩니다.
+
+$time = 145 (@negedge clk):
+
+train_valid = 0;
+
+5. 네 번째 시나리오: PC=14 예측 실패 (실제 Not Taken)
+$time = 150: $display("[4] Predict PC=14, 예측 실패 (실제 not taken)"); 메시지가 출력됩니다.
+
+predict_phase(7'd14); 태스크 호출:
+
+$time = 155 (@negedge clk):
+
+predict_valid = 1; predict_pc = 7'd14;
+
+이 시점에서 DUT는 예측을 수행합니다:
+
+현재 GHR (r_predict_history): 7'b000_0100
+
+예측 인덱스: predict_pc ^ predict_history = 7'd14 ^ 7'b000_0100 = 7'd10
+
+predict_taken (예측 결과): PHT[7'd10][1] = 2'b10[1] = 1 (Taken으로 예측) (PHT[10]은 첫 번째 훈련에서 2'b10으로 업데이트됨)
+
+predict_history (wire): r_predict_history의 현재 값인 7'b000_0100을 유지합니다.
+
+saved_predict_history = predict_history;
+
+saved_predict_history에 7'b000_0100이 저장됩니다.
+
+$time = 160 (@posedge clk):
+
+DUT 내부의 GHR (r_predict_history) 업데이트:
+
+r_predict_history <= { predict_history[5:0], predict_taken};
+
+predict_history (wire)는 $time=155 시점의 7'b000_0100이고, predict_taken은 1이었으므로,
+
+r_predict_history는 7'b000_1001 ({7'b000_0100[5:0], 1})으로 업데이트됩니다.
+
+$time = 165 (@negedge clk):
+
+predict_valid = 0;
+
+train_phase(7'd14, 1'b0, 1'b1); 태스크 호출: (PC=14, 실제 Not Taken, 미스예측)
+
+$time = 175 (@negedge clk):
+
+train_valid = 1; train_pc = 7'd14;
+
+train_taken = 0; (실제 분기 결과는 Not Taken)
+
+train_mispredicted = 1; (이전 예측 predict_taken=1과 실제 결과 train_taken=0이 다르므로 미스예측)
+
+train_history = saved_predict_history;
+
+train_history에 saved_predict_history 값인 7'b000_0100이 할당됩니다.
+
+$time = 180 (@posedge clk):
+
+DUT 내부의 PHT 훈련 및 GHR 복구:
+
+train_valid = 1이고, train_mispredicted = 1이므로 GHR 복구 로직이 실행됩니다.
+
+r_predict_history <= { train_history[5:0], train_taken};
+
+train_history는 7'b000_0100이고, train_taken은 0이었으므로,
+
+r_predict_history는 7'b000_1000 ({7'b000_0100[5:0], 0})으로 업데이트됩니다.
+
+PHT 업데이트:
+
+훈련 인덱스: train_pc ^ train_history = 7'd14 ^ 7'b000_0100 = 7'd10
+
+train_taken = 0이었으므로, PHT[7'd10] 엔트리는 2'b10 (Weakly Taken)에서 2'b01 (Weakly Not Taken)으로 상태가 변경됩니다.
+
+$time = 185 (@negedge clk):
+
+train_valid = 0;
