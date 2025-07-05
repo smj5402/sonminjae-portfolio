@@ -1,12 +1,22 @@
+// pulse_gen_1hz
+// Generates a 1Hz pulse from a input clock
+// The output pulse_1hz goes HIGH for one clock cycle every 1 sec
 `timescale 1ns/1ps
 module pulse_gen_1hz #( parameter 
-        CLK_FREQ = 50_000_000) (
-        input clk, rst_n,
-        output pulse_1hz
+        CLK_FREQ = 50_000_000 // input clock frequency (Hz)
+        )(
+        input clk, // system clock
+        input rst_n, // active-low async reset
+        output pulse_1hz // 1 cycle pulse signal
         );
     
+    // Maximum count value to generate 1Hz pulse
     parameter COUNT_MAX = CLK_FREQ;
+
+    // Counter to divide clk
     reg [$clog2(COUNT_MAX)-1 : 0] cnt;
+
+    // Output pulse reg
     reg r_pulse_1hz;
 
     always@(posedge clk or negedge rst_n) begin
@@ -22,11 +32,16 @@ module pulse_gen_1hz #( parameter
         end
     end
 
+// Assign internal pulse to output
 assign pulse_1hz = r_pulse_1hz;
         
 endmodule
 
-/*
+/*============================================================================
+This module divides input clock to generate a 1Hz square wave with 50 % duty.
+It can also be used to implement a digital clock.
+In this project, I implemented the digital clock with pulse generator.
+==============================================================================
 `timescale 1ns/1ps
 // for system clock 50MHz 
 module clk_divider #( parameter 

@@ -1,7 +1,11 @@
+// Digital clock
+// Top module for 12 hour format digital clock with AM/PM
+
 `timescale 1ns/1ps
 module Digital_clock # (
     parameter CLK_FREQ = 50_000_000 )( // 50 MHz 
-    input clk, rst_n,
+    input clk,   // system clock input
+    input rst_n  // active-low async reset
     output [3:0] sec_tens,
     output [3:0] sec_units,
     output [3:0] min_tens,
@@ -11,12 +15,13 @@ module Digital_clock # (
     output is_am
 );
 
+// Internal wires for cout and 1Hz pulse
 wire one_hz_pulse;
 wire sec_carry;
 wire min_carry;
 wire hr_carry;
 
-// clk
+// 1Hz pulse generator from 50MHz
 pulse_gen_1hz # (
     .CLK_FREQ (CLK_FREQ)
 ) i_clk_divider ( 
@@ -25,7 +30,7 @@ pulse_gen_1hz # (
     .pulse_1hz  (one_hz_pulse)    
 );
 
-// second
+// Seconds counter 00 ~ 59
 BCD_counter_60 i_sec_counter (
     .clk        (one_hz_pulse),
     .rst_n      (rst_n),
@@ -34,7 +39,7 @@ BCD_counter_60 i_sec_counter (
     .cout       (sec_carry)
 );
 
-// minute
+// Minutes counter 00 ~ 59
 BCD_counter_60 i_min_counter (
     .clk        (sec_carry),
     .rst_n      (rst_n),
@@ -43,7 +48,7 @@ BCD_counter_60 i_min_counter (
     .cout       (min_carry)
 );
 
-// hour
+// Hours counter 01 ~ 12
 BCD_counter_12 i_hour_counter (
     .clk        (min_carry),
     .rst_n      (rst_n),
@@ -52,14 +57,13 @@ BCD_counter_12 i_hour_counter (
     .cout       (hr_carry)
 );
 
-// am/pm
+// AM/PM logic
 am_pm_logic i_am_pm (
     .clk        (hr_carry),
     .rst_n      (rst_n),
     .min_carry  (min_carry),
     .hour_tens  (hour_tens),
     .hour_units (hour_units),
-    //.hour_carry (hr_carry),
     .am         (is_am)
 );
 endmodule

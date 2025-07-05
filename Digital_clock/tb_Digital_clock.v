@@ -1,3 +1,6 @@
+// tb_Digital_clock
+// Testbench for Digital clock
+
 `timescale 1ns/1ps
 
 module tb_Digital_clock;
@@ -17,12 +20,11 @@ assign o_hour = { hour_tens, hour_units};
 assign o_min =  { min_tens, min_units};
 assign o_sec =  { sec_tens, sec_units};
 
-localparam TB_CLK_FREQ = 100; // 1 second for 100 cycles 
-                              // 24hours -> 100 cycles * 60 * 60 * 24  = 8,640,000 cycles
+// Use small clock frequency for faster simulation 
+localparam TB_CLK_FREQ = 100; // 1 second for 100 cycles
+localparam PERIOD = 10;  // 24hours -> 100 cycles * 60 * 60 * 24  = 8,640,000 cycles
 
-
-
-
+// Instantiate DUT
 Digital_clock # (
     .CLK_FREQ       (TB_CLK_FREQ)
 ) i_digital_clock (
@@ -37,7 +39,7 @@ Digital_clock # (
     .is_am          (is_am)
 );
 
-localparam PERIOD = 10;
+// clk gen
 always #5 clk=~clk;
 
 initial begin
