@@ -19,7 +19,7 @@
 - 1Hz 펄스 발생기, BCD counter(시,분,초 구성), AM/PM 전환 로직으로 구성
 - 각 기능별 모듈의 계층적 설계를 통해 top_module에서 통합
 - BCD counter 간 carry 연계를 통해 시간의 흐름 구현
-- 
+
 ---
 
 ### 2. [**Serial Receiver with Odd Parity Check**](./Project_02_Serial_Rx_Parity/README.md)  
