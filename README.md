@@ -11,7 +11,7 @@
 - Vivado Simulator
 
 ## 프로젝트 목록
-1. **Digital Clock (12시간 형식 디지털 시계)**(./Project_01_Digital_Clock/README.md)  
+1. [**Digital Clock (12시간 형식 디지털 시계)**](./Project_01_Digital_Clock/README.md)  
 - 1Hz 펄스 발생기, BCD counter(시,분,초 구성), AM/PM 전환 로직으로 구성
 - 각 기능별 모듈의 계층적 설계를 통해 top_module에서 통합
 - BCD counter 간 carry 연계를 통해 시간의 흐름 구현
