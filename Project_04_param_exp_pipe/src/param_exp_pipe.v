@@ -1,20 +1,23 @@
-// Operates i_data^(2^a)  a= LATENCY
+// param_exp_pipe
+// This module computes i_data^(a^b) in pipelined architecture (b = LATENCY)
+// To check pipeline's operation, I assumsed inputs are consecutive numbers from 0 to MAX_INPUT_VALUE
+// 3 cycle latency and 1 throughput pipelined architecture
 `timescale 1ns/1ps
-// 3 cycle latency and 1 throughput pipeline 
-module pow8_pipeline_parameteriztion #( 
+module param_exp_pipe #( 
   parameter
   LATENCY = 3,
-  TEST_TIMES = 100
+  MAX_INPUT_VALUE = 99 // 100 times
 )(
   input clk, rst_n,
-  input [6:0] i_data, // 1~100
-  input i_valid,
-  output o_valid,
-  output [63:0] o_data
+  input [6:0] i_data, // Input data range : 0 ~ 127 (2^7-1)
+  input i_valid,      // Valid signal for input
+  output o_valid,     // Valid signal for output
+  output [63:0] o_data // Output result
 );
-  // LATENCY 3 
+  // Internal signals
   wire [63:0] pow [0:LATENCY-1]; 
   reg  [63:0] r_pow [0:LATENCY-1];
+
   reg  [LATENCY-1:0]  r_valid;
   
   assign o_valid = r_valid[LATENCY-1];
@@ -29,13 +32,13 @@ module pow8_pipeline_parameteriztion #(
   end
   
   // Operation logic
-  assign pow[0] = i_data*i_data;
-  //assign pow[1] = r_pow[0] * r_pow[0];
-  //assign pow[2] = r_pow[1] * r_pow[1];
+  assign pow[0] = i_data*i_data; // -> i_data^2
+  // pow[1] = r_pow[0] * r_pow[0];  -> i_data^4
+  // pow[2] = r_pow[1] * r_pow[1];  -> i_data^8
+  // pow[3] = r_pow[2] * r_pow[2];  -> i_data^16
   //~~~
-  // pow[0]= i_data^(2^1) ,  pow[1]= i_data^(2^2) , pow[2]= i_data^(2^3) ...
   
-  // Generate
+  // Repetitive logic using generate block
   genvar i;
   generate 
     for(i=1;i<LATENCY;i=i+1) begin : pow_gen
@@ -43,7 +46,7 @@ module pow8_pipeline_parameteriztion #(
     end
   endgenerate
   
-  // Pipeline Registering
+  // Pipeline Registering for each stage
   integer j,k;
   always@(posedge clk or negedge rst_n) begin
     if(!rst_n) begin

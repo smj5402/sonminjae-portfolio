@@ -1,16 +1,23 @@
+// tb_param_exp_pipe
+// Test pipelined architecture having 3 latency and 1 throughput
+// input consecutive 100 numbers from 0 to 99 
+// Computes from 0^8 ~ 99^8 with synchronized valid signal
+
 `timescale 1ns/1ps
 `define LATENCY 3
-`define TEST_TIMES 100
-module tb_pow8_pipeline_parameterization;
+`define MAX_INPUT_VALUE 100
+
+module tb_param_exp_pipe;
 reg clk, rst_n;
 reg [6:0] i_data;
 reg i_valid;
 wire o_valid;
 wire [63:0] o_data;
 
-pow8_pipeline_parameteriztion # ( 
+// Instantiate DUT
+param_exp_pipe # ( 
     .LATENCY    (`LATENCY),
-    .TEST_TIMES (`TEST_TIMES)
+    .TEST_TIMES (`MAX_INPUT_VALUE)
     ) pipeline_inst1 (
     .clk        (clk),
     .rst_n      (rst_n),
@@ -41,7 +48,7 @@ initial begin
 
    $display("Start Simulation [%t]", $time);
    @(posedge clk);
-   for(i=0;i<`TEST_TIMES; i=i+1) begin
+   for(i=0;i<`MAX_INPUT_VALUE; i=i+1) begin
     i_data = i;
     i_valid =1;
     @(posedge clk);

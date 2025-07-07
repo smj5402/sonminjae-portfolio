@@ -1,3 +1,6 @@
+// tb_bram_ctrl
+// Test for writing and reading data to BRAM using Mod-100 counter
+
 `timescale 1ns/1ps
 `define ADDR_WIDTH 7
 `define DATA_WIDTH 16
@@ -11,7 +14,7 @@ module tb_bram_ctrl;
   wire o_write;
   wire o_read;
   wire o_done;
- // memory interface
+ // Memory interface
   wire [`ADDR_WIDTH-1:0] addr;
   wire en;
   wire we;
@@ -49,11 +52,16 @@ module tb_bram_ctrl;
   u_tdpbram (
     .clk      (clk),
     .rst_n    (rst_n),
-    .addr     (addr),
-    .en       (en),
-    .we       (we),
-    .d	      (din),
-    .q	      (qout)
+    .addr0     (addr),
+    .en0       (en),
+    .we0       (we),
+    .d0	      (din),
+    .q0	      (qout),
+    .addr1     (),
+    .en1       (),
+    .we1       (),
+    .d1	      (),
+    .q1	      ()
   );
 
   //clk gen

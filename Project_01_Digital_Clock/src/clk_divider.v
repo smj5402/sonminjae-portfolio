@@ -1,5 +1,5 @@
 // pulse_gen_1hz
-// Generates a 1Hz pulse from a input clock
+// This module generates a 1Hz pulse from a input clock
 // The output pulse_1hz goes HIGH for one clock cycle every 1 sec
 `timescale 1ns/1ps
 module pulse_gen_1hz #( parameter 

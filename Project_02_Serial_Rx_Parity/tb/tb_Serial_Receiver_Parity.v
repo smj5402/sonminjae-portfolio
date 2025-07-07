@@ -1,3 +1,5 @@
+// tb_Serial_Receiver_Parity
+// Testbench for Serial Receiver and checking odd parity system
 `timescale 1ns/1ps
 module tb_Serial_Receiver_Parity();
   
@@ -10,7 +12,7 @@ module tb_Serial_Receiver_Parity();
     .clk		(clk),
     .rst		(rst),
     .i_data		(i_data),
-    .out_byte		(out_byte),
+    .out_byte	(out_byte),
     .done		(done)
   );
   
@@ -34,7 +36,10 @@ module tb_Serial_Receiver_Parity();
     
     $display("Start Simulation [%t]", $time);
     
-    // Test 1 : 8h0101_0101 -> parity bit has to be 1
+    //=============================================
+    // Test 1 : 8h0101_0101 + parity bit  1 (PASS)
+    // Expect : done = 1, out_byte = 0x55
+    //=============================================
     i_data=1; // IDLE
     #50;
     
@@ -58,7 +63,7 @@ module tb_Serial_Receiver_Parity();
     $display("Send parity bit [%t]", $time); i_data=1; #10;
     
     //Stop bit 1
-    $display("Send Stop bit [%t]", $time); i_data=1;
+    $display("Send Stop bit : %b [%t]", $time); i_data=1;
     
     
     #10;
@@ -72,10 +77,11 @@ module tb_Serial_Receiver_Parity();
     end
     
     
-    
-    
-    
-    // Test 2 : 8'h1010_1010 -> parity bit has to be 1
+
+    //===========================================================
+    // Test 2 : 8'h1010_1010 + parity bit  1 (PASS)
+    // Expect : done = 1 , out_byte = 0xAA
+    //===========================================================
     i_data=1; // IDLE
     #50;
     
@@ -114,7 +120,10 @@ module tb_Serial_Receiver_Parity();
     
     
     
-    // Test 3 : 8'h0000_0001 -> parity bit has to be 0
+    //===========================================================
+    // Test 3 : 8'h0000_0001 + parity bit 1  (FAIL)
+    // Expect : done = 0 , out_byte = 0x01
+    //===========================================================
     i_data=1; // IDLE
     #50;
     

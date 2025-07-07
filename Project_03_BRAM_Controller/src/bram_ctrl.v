@@ -1,27 +1,30 @@
+// Block RAM Controller
+// This module writes data 100 times to BRAM then reads it back
 `timescale 1ns/1ps
 module bram_ctrl #(
-  parameter DATA_WIDTH = 16,
+  parameter DATA_WIDTH = 8,
   parameter MEM_SIZE   = 2**12-1,
   parameter ADDR_WIDTH = $clog2(MEM_SIZE)
 )(
-  input clk,rst_n,
-  input i_run,
-  input [ADDR_WIDTH-1:0] i_cnt,
+  input clk,
+  input rst_n, // active low async reset
+  input i_run, // For start writing
+  input [ADDR_WIDTH-1:0] i_cnt, // The number of operation(Write or Read) times 
   output o_idle,
   output o_write,
   output o_read,
   output o_done,
- // memory interface
+ // Memory interface
   output [ADDR_WIDTH-1:0] addr,
   output en,
   output we,
   output [DATA_WIDTH-1:0] din,
   input [DATA_WIDTH-1:0] qout,
- // output read value from BRAM
+ // Output read value from BRAM
   output o_valid,
   output [DATA_WIDTH-1:0] o_mem_data
 );
-  // state and wire reg deifinition
+  // State Definition
   parameter [1:0]
   IDLE  = 2'd0,
   WRITE = 2'd1,
@@ -34,7 +37,7 @@ module bram_ctrl #(
   wire is_read_done;
 
   
-  // state flip-flops
+  // State flip-flops
   always@(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
       c_state <= IDLE;
@@ -43,16 +46,13 @@ module bram_ctrl #(
     end
   end
   
-  // state transition logic
+  // State transition logic
   always@(*) begin
     n_state = c_state;
     case(c_state) 
       
       IDLE : begin
-        if (i_run && i_cnt>0)   // + (&& i_cnt >0)    
-          			 // By r_cnt-1 of is_write_done and is_read_done, it can be -1 when r_cnt==0  
-          			 // -1ì ëì§í¸ íë¡ìì 'b1111~~11 ì¼ë¡ íí 
-          			 // ë§ì½ addr_cnt ê° 'b1111~11 ì´ë¼ë©´ ìëíì§ ìì ëì ë°ì
+        if (i_run && i_cnt>0) 
           n_state = WRITE;
       end
       
@@ -71,13 +71,13 @@ module bram_ctrl #(
     endcase
   end    
       
-  // output logic
+  // Output logic
   assign o_idle  = (c_state == IDLE);
   assign o_write = (c_state == WRITE);
   assign o_read  = (c_state == READ);
   assign o_done = (c_state == DONE);
   
-  // registering i_cnt 
+  // Registering i_cnt
   reg [ADDR_WIDTH-1:0] r_cnt;
   always@(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
@@ -89,7 +89,7 @@ module bram_ctrl #(
     end
   end  
   
-  // addr_cnt
+  // add_cnt
   reg [ADDR_WIDTH-1:0] addr_cnt;
   assign is_write_done = o_write && (addr_cnt == r_cnt -1);
   assign is_read_done  = o_read  && (addr_cnt == r_cnt -1);

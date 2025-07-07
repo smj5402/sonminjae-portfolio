@@ -1,5 +1,5 @@
 // am_pm_logic
-// Toggle AM/PM at 12:00:00 (11:59:59 -> 12:00:00)
+// This module toggles AM/PM at 12:00:00 (11:59:59 -> 12:00:00)
 // am is HIGH during AM, low during PM
 `timescale 1ns/1ps
 module am_pm_logic (

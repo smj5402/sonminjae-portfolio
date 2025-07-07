@@ -1,3 +1,5 @@
+// tb_Gshare_branch_predictor
+
 `timescale 1ns/1ps
 module tb_Gshare_branch_predictor;
 
@@ -14,7 +16,7 @@ module tb_Gshare_branch_predictor;
     reg  [6:0] train_history;
     reg  [6:0] train_pc;
 
-    reg [6:0] saved_predict_history;
+    reg [6:0] saved_predict_history; // for recovery in misprediction
 
     
     Gshare_branch_predictor dut (
@@ -34,6 +36,7 @@ module tb_Gshare_branch_predictor;
     // clk gen
     always #5 clk = ~clk;
 
+    // Simulate a prediction phase
     task predict_phase(input [6:0] pc);
         begin
             @(negedge clk);
@@ -45,6 +48,7 @@ module tb_Gshare_branch_predictor;
         end
     endtask
 
+    // Simulate a training phase
     task train_phase(input [6:0] pc, input taken, input mispredicted);
         begin
             @(negedge clk);
@@ -63,7 +67,7 @@ module tb_Gshare_branch_predictor;
         clk=0;
         rst_n=1;
         predict_valid=0;
-        predict_pc=7'b0;
+        predict_pc=7'd0;
         train_valid=0;
         train_taken=0;
         train_mispredicted=0;
@@ -78,20 +82,24 @@ module tb_Gshare_branch_predictor;
 
         $display("Start Simulation [%t]", $time);
         
-        $display("1. Predict when pc=10, suppose prediction fails [%t]", $time);
+        $display("1. Predict and train when pc=10, suppose prediction fails [%t]", $time);
+        // Expect pc=10, taken =1, mispredicted =1
         predict_phase(7'd10);
         train_phase(7'd10, 1'b1, 1'b1);
 
         
-        $display("2. Train when pc=10, suppose prediction succeeds [%t]", $time);
+        $display("2. Predict and train when pc=10, suppose prediction succeeds [%t]", $time);
+        // Expect pc=10, taken =0, mispredicted =0
         predict_phase(7'd10);
         train_phase(7'd10, 1'b0, 1'b0);
 
-        $display("3. Predict when pc=20, suppose prediction succeeds [%t]", $time);
+        $display("3. Predict and train when pc=20, suppose prediction succeeds [%t]", $time);
+        // Expect pc=20, taken =0, mispredicted =0
         predict_phase(7'd20);
         train_phase(7'd20, 1'b0, 1'b0);
-
-        $display("4. Predict when pc=14, suppose prediction fails [%t]", $time);
+ 
+        $display("4. Predict and train when pc=14, suppose prediction fails [%t]", $time);
+        // Expect pc=14, taken =0, mispredicted =1
         predict_phase(7'd14);
         train_phase(7'd14, 1'b0, 1'b1);
 
