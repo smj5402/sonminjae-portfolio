@@ -24,13 +24,13 @@
 
 ### 2. [**Serial Receiver with Odd Parity Check**](./Project_02_Serial_Rx_Parity/README.md)  
 - 시리얼 입력 데이터를 수신하고 홀수 패리티 검사를 통해 데이터의 유효성 판단
-- FSM 구조로 동작 ( 'IDLE -> START -> DATA 수신 -> PARITY -> STOP' )
+- FSM 구조로 동작 ( `IDLE -> START -> DATA 수신 -> PARITY -> STOP` )
 
 ---
 
 ### 3. [**BRAM Controller**](./Project_03_BRAM_Controller/README.md)  
 - BRAM에 데이터 읽기 및 쓰기를 제어하는 컨트롤러
-- FSM 구조로 동작 ( 'IDLE -> WRITE -> READ -> DONE' )
+- FSM 구조로 동작 ( `IDLE -> WRITE -> READ -> DONE` )
 
 ---
 
