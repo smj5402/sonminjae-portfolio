@@ -66,7 +66,7 @@
 
 ---
 ![24-hour Simulation](sim_waves/5.24-hour_simulation.jpg)
-24시간 동안의 시뮬레이션 결과입니다.
+24시간 동안의 시뮬레이션 결과 정상적으로 동작함을 확인할 수 있습니다.
 
 
 
