@@ -74,7 +74,7 @@ testbench에서 설정한 `i_cnt=100`의 횟수 만큼 '쓰기'를 한 후, `REA
 
 ---
 
-![READ to DONE](sim_waves/2.READ_to_DONE.jpg)
+![READ to DONE](sim_waves/3.READ_to_DONE.jpg)
 `i_cnt=100`의 횟수 만큼 '읽기'를 한 후, 'DONE' 상태로 전이합니다. `qout`이 한 사이클의 latency를 가지므로 `o_valid`를 통해 데이터의 유효성을 알립니다.
 `o_done=1` 이후 다시 `IDLE` 상태로 전이하며 `WRITE`를 위한 `i_run`을 기다립니다.
 
