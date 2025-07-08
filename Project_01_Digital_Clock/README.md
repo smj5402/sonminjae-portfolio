@@ -45,4 +45,28 @@
 
 ## 4. 시뮬레이션 및 검증 결과
 
-1. ![초기값 및 초(sec) 동작 확인](/sim_waves/1.초기값.jpg)
+
+![초기값 및 초(sec) 동작 확인](sim_waves/1.초기값.jpg)
+시작 직후 12:00:00AM로 초기화되는 것을 볼 수 있고 초(sec)가 정상적으로 증가하는 것을 확인할 수 있습니다.
+
+---
+
+![sec carry(sec roll over)](sim_waves/2.sec_carry.jpg)
+12:00:59AM -> 12:01:00AM 으로 second roll over이 발생하는 것을 확인할 수 있습니다.
+
+---
+
+![min carry(min roll over)](sim_waves/3.min_carry.jpg)
+12:59:59AM -> 01:00:00AM 으로 minute roll over이 발생하는 것을 확인할 수 있습니다.
+
+---
+
+![AM_PM_logic](sim_waves/4.AM_PM_logic.jpg)
+각각 11:59:59AM -> 12:00:00PM / 11:59:59PM -> 12:00:00AM 으로 AM/PM 전환이 발생하는 것을 확인할 수 있습니다.
+
+---
+![24-hour Simulation](sim_waves/5.24-hour_simulation.jpg)
+24시간 동안의 시뮬레이션 결과입니다.
+
+
+
