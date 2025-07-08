@@ -53,8 +53,22 @@ assign done = (c_state == STOP_BIT) && ^parity_check_bit;
 
 
 ![FSM Diagram](sim_waves/1.FSM_Diagram.jpg)
+해당 프로젝트 FSM의 전체 구조입니다.
 
+---
 
+![data=8'b01010101, parity bit=1](sim_waves/2.Test_1.jpg)
+`out_byte=8'b0101_0101 (0x55)`, `parity=1`인 경우 Odd parity 조건을 만족하므로 `done=1`을 출력합니다.
+
+---
+
+![data=8'b10101010, parity bit=1](sim_waves/3.Test_2.jpg)
+`out_byte=8'b1010_1010 (0xAA)`, `parity=1`인 경우 Odd parity 조건을 만족하므로 `done=1`을 출력합니다.
+
+---
+
+![data=8'b00000001, parity=0](sim_waves/4.Test_3.jpg)
+`out_byte=8'b0000_0001 (0x01)`, `parity=1`인 경우 Odd parity 조건을 만족하지 않습니다. 그러므로 `done`을 출력하지 않습니다.
 
 ---
 
