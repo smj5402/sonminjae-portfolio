@@ -53,12 +53,12 @@
 ---
 
 ![sec carry(sec roll over)](sim_waves/2.sec_rollover.jpg)
-초(`o_sec`) 카운터가 59에서 00으로 넘어가면서 `sec_carry` 신호가 1이 되고, 이를 통해 분(`o_min`) 카운터가 증가함을 확인할 수 있습니다. (sec-rollover)
+초(`o_sec`) 카운터가 59에서 00으로 넘어가면서 `sec_carry` 신호가 1이 되고, 이를 통해 **분(`o_min`) 카운터가 증가**함을 확인할 수 있습니다. (sec-rollover)
 
 ---
 
 ![min carry(min roll over)](sim_waves/3.min_rollover.jpg)
-분(`o_min`) 카운터가 59에서 00으로 넘어가면서 `min_carry` 신호가 1이 되고, 이를 통해 시간(`o_hour`) 카운터가 증가함을 확인할 수 있습니다. (min-rollover)
+분(`o_min`) 카운터가 59에서 00으로 넘어가면서 `min_carry` 신호가 1이 되고, 이를 통해 **시간(`o_hour`) 카운터가 증가**함을 확인할 수 있습니다. (min-rollover)
 
 ---
 
