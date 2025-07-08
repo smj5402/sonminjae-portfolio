@@ -25,7 +25,8 @@
 | `clk_divider`    | 펄스 발생기(pulse generator)를 통해 시스템 클럭을 1Hz 주기로 분주합니다.   |
 | `BCD_counter_60` | 00부터 59까지 BCD 형식으로 초 및 분을 카운트하며, 59에서 00으로 roll-over 시 carry 신호를 발생합니다. |
 | `BCD_counter_12` | 01부터 12까지 BCD 형식으로 시간을 카운트하며, 12에서 1로 넘어갈 때 carry 신호를 발생합니다. |
-| `am_pm_logic`    | AM/PM 상태를 관리하며, 12시 정각마다 AM과 PM을 토글합니다.           |
+| `am_pm_logic`    | AM/PM 상태를 관리하며, 12시 정각마다 AM과 PM을 토글합니다.|
+| `Digital_clock` | 위의 네 가지 모듈의 연결을 위한 top_module |
 | `tb_Digital_clock` | 시계의 동작 확인을 위한 24시간 동안의 테스트벤치 |
 
 
