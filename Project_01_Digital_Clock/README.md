@@ -45,4 +45,4 @@
 
 ## 4. 시뮬레이션 및 검증 결과
 
-1. ![초기값 및 초(sec) 동작 확인](Project_01_Digital_Clock/sim_waves/1.초기값.jpg)
+1. ![초기값 및 초(sec) 동작 확인](/sim_waves/1.초기값.jpg)
