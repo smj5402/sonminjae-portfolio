@@ -116,7 +116,7 @@ module bram_ctrl #(
     if(!rst_n) begin
       r_valid <= 1'b0;
     end else
-      r_valid <= o_read;  // r_valid is one cycle delay signal of o_READ
+      r_valid <= o_read;  // r_valid is one cycle delay signal of o_read
   end
       
   
