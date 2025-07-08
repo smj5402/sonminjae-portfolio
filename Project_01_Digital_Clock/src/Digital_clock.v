@@ -5,7 +5,7 @@
 module Digital_clock # (
     parameter CLK_FREQ = 50_000_000 )( // 50 MHz 
     input clk,   // system clock input
-    input rst_n  // active-low async reset
+    input rst_n,  // active-low async reset
     output [3:0] sec_tens,
     output [3:0] sec_units,
     output [3:0] min_tens,
