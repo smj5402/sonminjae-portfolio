@@ -5,7 +5,7 @@
 
 `timescale 1ns/1ps
 `define LATENCY 3
-`define MAX_INPUT_VALUE 100
+`define MAX_INPUT_VALUE 99
 
 module tb_param_exp_pipe;
 reg clk, rst_n;
