@@ -72,7 +72,9 @@ GHR <= { train_history[5:0], train_taken};
 ![PHT update logic](sim_waves/2.PHT_update_logic.jpg)
 PHT update logic
 
-1. TEST_1 `predict_pc=7'd10`
+---
+
+1. **TEST_1 `PC=7'd10`**
    
 -> PHT [10^0] = PHT[10] = 01 
 
@@ -84,7 +86,9 @@ PHT update logic
 
 -> PHT[10] = 10
 
-2. TEST_2 `predict_pc=7'd10`
+---
+
+2. **TEST_2 `PC=7'd10`**
    
 -> PHT[10^1] = PHT[11]= 01
 
@@ -96,7 +100,9 @@ PHT update logic
 
 -> PHT[11] = 00;
 
-3. TEST_3 `predict_pc=7'd20`
+---
+
+3. **TEST_3 `PC=7'd20`**
    
 -> PHT[20^2] = PHT[22] = 01
 
@@ -108,7 +114,9 @@ PHT update logic
 
 ->PHT[22] = 00;
 
-4. TEST_4 `predict_pc=7'd14`
+---
+
+4. **TEST_4 `PC=7'd14`**
    
 -> PHT[14^4]= PHT[10] = 10  (TEST_1에 의해)
 
@@ -123,6 +131,22 @@ PHT update logic
 ---
 
 ## 5. 결론
+
+이번 Gshare predictor 프로젝트를 통해 다음과 같은 주요 개념과 실습 경험을 얻었습니다
+
+>**1. Branch Prediction 구조에 대한 이해**
+>단순히 예측 신호를 출력하는 것이 아닌, **히스토리 기반 예측 구조의 필요성**, **XOR 해싱을 사용한 인덱싱 방식**, **2-bit saturating counter의 안정성** 등을 학습했습니다.
+
+>**2. GHR 복구를 통한 예측 신뢰성 확보**
+>예측 실패 시 GHR을 `train_history`로 되돌리는 기능을 통해, **분기 오차가 시스템 상태에 미치는 영향 최소화**를 설계에 반영할 수 있었습니다.
+
+>**3. CPU 성능 향상을 위한 구조적 기법 학습**
+>분기 예측 실패는 **파이프라인 스톨(stall)**로 이어지고 이는 성능 저하로 직결됩니다.  
+>**Gshare**는 **Global History**를 이용하여 다양한 분기 패턴을 학습할 수 있으며, 그에 따라 **예측 정확도 향상 → CPU 성능 향상**이라는 구조적 장점을 가지고 있습니다.
+
+---
+
+이 프로젝트는 단순한 회로 설계를 넘어서, **마이크로아키텍처 수준의 성능 최적화**와 **구조 설계 개념**을 체득할 수 있는 유익한 실습이었습니다.
 
 
 
