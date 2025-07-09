@@ -69,7 +69,7 @@ GHR <= { train_history[5:0], train_taken};
 
 ---
 
-![PHT update logic](sim_waves/2.PHT_update_logic.jpg)
+
 PHT update logic
 
 1. TEST_1 `predict_pc=7'd10`
