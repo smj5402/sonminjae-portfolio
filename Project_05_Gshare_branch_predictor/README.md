@@ -4,9 +4,18 @@
 이 프로젝트는 **Global History Register(GHR) 및 Pattern History Table(PHT)** 을 이용하여 분기 방향을 예측하는 Gshare branch predictor를 구현한 것입니다.
 현대 CPU 구조에서 branch predictor는 분기의 결과를 미리 예측하여 파이프라인 스톨(stall)을 줄이고, 고속 처리 성능을 유지하기 위해 필수적인 요소입니다. 그 중 Gshare은 PHT의 index를 결정하는 방식을 의미하며 다음과 같은 특징을 가집니다:
 
-* 전역적인 분기 이력을 관리하는 GHR(Global History Register) 사용
+* 전역적인 분기 이력을 관리하는 GHR(Global History Register): 과거의 분기 결과(Taken, Not Taken)를 1비트씩 shift하며 저장
+
+   -> 분기문을 만날 때마다 새로운 예측 결과를 GHR의 **LSB에 shift-in**하는 방식으로 업데이트되면서 가장 최근의 history가 LSB에 저장
+  
 * **Program Counter(PC)와 GHR을 XOR 기반 해싱(hashing) 방식으로 결합**하여 PHT 인덱스를 생성함으로써, 예측 테이블의 충돌을 줄이고 다양한 분기 패턴에 효과적으로 대응
+
 * 각 인덱스마다 **2-bit saturating counter**로 구성된 **PHT**를 사용하여 예측 강도를 결정
+
+* 전역적인 분기 이력을 관리하는 **GHR (Global History Register)**는 과거 분기 결과(Taken 또는 Not Taken)를 1비트씩 shift하며 저장합니다.  
+  분기문을 만날 때마다 새로운 예측 결과를 GHR의 **MSB 쪽에 먼저 shift-in**하는 방식으로 업데이트되며, 이로 인해 최신 이력이 항상 앞쪽(MSB)에 위치하게 됩니다.  
+  예: `GHR <= {GHR[5:0], predict_taken};`
+
 
 ---
 
@@ -71,6 +80,15 @@ GHR <= { train_history[5:0], train_taken};
 
 ![PHT update logic](sim_waves/2.PHT_update_logic.jpg)
 PHT update logic
+
+
+
+| Test #  | PC 값 | GHR (XOR 대상) | Index 계산       | 초기 PHT 값 | 예측 결과 (MSB) | 실제 결과 | PHT update     | 최종 PHT 값 |
+|---------|--------|----------------|------------------|-------------|------------------|------------|------------------|--------------|
+| TEST_1  | 10     | 0              | 10 ^ 0 = 10      | 01          | Not Taken (0)    | Taken (1)  | 증가: 01 → 10     | 10           |
+| TEST_2  | 10     | 1              | 10 ^ 1 = 11      | 01          | Not Taken (0)    | Not Taken (0) | 감소: 01 → 00     | 00           |
+| TEST_3  | 20     | 2              | 20 ^ 2 = 22      | 01          | Not Taken (0)    | Not Taken (0) | 감소: 01 → 00     | 00           |
+| TEST_4  | 14     | 4              | 14 ^ 4 = 10      | 10 (TEST_1) | Taken (1)        | Not Taken (0) | 감소: 10 → 01     | 01           |
 
 ---
 
