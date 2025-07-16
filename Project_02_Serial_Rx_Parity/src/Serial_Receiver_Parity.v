@@ -11,21 +11,24 @@ module Serial_Rx_Parity (
 );
 
   // State Definition
-  parameter [3:0] IDLE 	 	        = 4'd0;
-  parameter [3:0] START_BIT	      = 4'd1; // Start bit should be 0
-  parameter [3:0] B0_RECEIVED  	 	= 4'd2;
-  parameter [3:0] B1_RECEIVED	    = 4'd3;
-  parameter [3:0] B2_RECEIVED	    = 4'd4;
-  parameter [3:0] B3_RECEIVED	    = 4'd5;
-  parameter [3:0] B4_RECEIVED		  = 4'd6;
-  parameter [3:0] B5_RECEIVED		  = 4'd7;
-  parameter [3:0] B6_RECEIVED		  = 4'd8;
-  parameter [3:0] B7_RECEIVED	  	= 4'd9; // Receive all Serial data bits (8 bit)
-  parameter [3:0] PARITY_BIT      = 4'd10;
-  parameter [3:0] STOP_BIT    	 	= 4'd11; // Stop bit should be 1
-  parameter [3:0] WAIT         	 	= 4'd12; // Wait when stop bit isn't 1
+  typedef enum logic [3:0] {
+    IDLE 	 	        = 4'd0,
+    START_BIT	      = 4'd1, // Start bit should be 0
+    B0_RECEIVED  	 	= 4'd2,
+    B1_RECEIVED	    = 4'd3,
+    B2_RECEIVED	    = 4'd4,
+    B3_RECEIVED,    = 4'd5,
+    B4_RECEIVED,		  = 4'd6,
+    B5_RECEIVED,		  = 4'd7,
+    B6_RECEIVED,		  = 4'd8,
+    B7_RECEIVED,	  	= 4'd9, // Receive all Serial data bits (8 bit)
+    PARITY_BIT,      = 4'd10,
+    STOP_BIT,    	 	= 4'd11, // Stop bit should be 1
+    WAIT         	 	= 4'd12 // Wait when stop bit isn't 1
+  } state_t;
 
-  reg [3:0] c_state, n_state;
+  state_t c_state, n_state;
+
   reg [7:0] r_out_byte;
   reg parity;
   
@@ -69,7 +72,6 @@ module Serial_Rx_Parity (
       B6_RECEIVED   	: r_out_byte[6]  <= i_data;
       B7_RECEIVED  		: r_out_byte[7]  <= i_data;
       PARITY_BIT      : parity  		   <= i_data;  //  i_data here is received parity bit
-      default         : r_out_byte	 <= r_out_byte;
     endcase
   end
 
