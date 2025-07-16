@@ -12,19 +12,19 @@ module Serial_Rx_Parity (
 
   // State Definition
   typedef enum logic [3:0] {
-    IDLE 	 	        = 4'd0,
-    START_BIT	      = 4'd1, // Start bit should be 0
-    B0_RECEIVED  	 	= 4'd2,
-    B1_RECEIVED	    = 4'd3,
-    B2_RECEIVED	    = 4'd4,
-    B3_RECEIVED,    = 4'd5,
-    B4_RECEIVED,		  = 4'd6,
-    B5_RECEIVED,		  = 4'd7,
-    B6_RECEIVED,		  = 4'd8,
-    B7_RECEIVED,	  	= 4'd9, // Receive all Serial data bits (8 bit)
-    PARITY_BIT,      = 4'd10,
-    STOP_BIT,    	 	= 4'd11, // Stop bit should be 1
-    WAIT         	 	= 4'd12 // Wait when stop bit isn't 1
+    IDLE,
+    START_BIT, // Start bit should be 0
+    B0_RECEIVED,
+    B1_RECEIVED,
+    B2_RECEIVED,
+    B3_RECEIVED,
+    B4_RECEIVED,
+    B5_RECEIVED,
+    B6_RECEIVED,
+    B7_RECEIVED, // Receive all Serial data bits (8 bit)
+    PARITY_BIT,
+    STOP_BIT, // Stop bit should be 1
+    WAIT // Wait when stop bit isn't 1
   } state_t;
 
   state_t c_state, n_state;
