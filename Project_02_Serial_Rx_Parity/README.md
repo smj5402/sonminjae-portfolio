@@ -65,20 +65,33 @@ assign done = (curr_state == STOP_BIT) && ^parity_check_bit;
 
 ---
 
-![data=8'b01010101, parity bit=1](sim_waves/2.Test_1.jpg)
+![data=8'b01010101, parity bit=1](sim_waves/2.Reset_test.JPEG)
+`rst_n` 의 assertion 이후 `i_data` 를 송신해도 `curr_state` 는 계속 `IDLE` 이므로 `rst_n`이 제대로 동작함을 알 수 있습니다.
+
 `out_byte=8'b0101_0101 (0x55)`, `parity=1`인 경우 Odd parity 조건을 만족하므로 `done =1`을 출력합니다.
 
 ---
 
-![data=8'b10101010, parity bit=1](sim_waves/3.Test_2.jpg)
-`out_byte=8'b1010_1010 (0xAA)`, `parity=1`인 경우 Odd parity 조건을 만족하므로 `done =1`을 출력합니다.
+![data=8'b0101_0101, parity bit=1](sim_waves/3.Test_1.JPEG)
+`start_bit` 후에 1byte의 데이터 0x55 (8'b0101_0101) 수신 확인 및 odd parity check pass 했으므로 `done` 을 assertion 한 것을 확인할 수 있습니다.
 
 ---
 
-![data=8'b00000001, parity=0](sim_waves/4.Test_3.jpg)
-`out_byte=8'b0000_0001 (0x01)`, `parity=1`인 경우 Odd parity 조건을 만족하지 않습니다. 그러므로 `done`을 출력하지 않습니다.
+![data=8'b1010_1010, parity=1](sim_waves/4.Test_3.JPEG)
+`start_bit` 후에 1byte의 데이터 0xaa (8'b1010_1010) 수신 확인 및 odd parity check pass 했으므로 `done` 을 assertion 한 것을 확인할 수 있습니다.
 
 ---
+
+![data=8'b0000_0001, parity=0](sim_waves/5.Test_4.JPEG)
+`start_bit` 후에 1byte의 데이터 0x01 (8'b0000_0001) 수신 확인, odd parity check fail 했으므로 `done` 을 de-assertion 한 것을 확인할 수 있습니다.
+
+{out_byte, parity} = 9'b0_0000_0011  odd parity check fail
+
+---
+
+![data=8'b1111_0000, parity=1](sim_waves/6.Test_5.JPEG)
+`start_bit` 후에 1byte의 데이터 0xf0 (8'b1111_0000) 수신 확인, odd parity check pass 했지만 잘못된 `stop_bit`가 수신되었기 때문에 `WAIT`로 전이(transition)하고 `done`을 de-assertion 한 것을 확인할 수 있습니다.
+
 
 ## 5. 결론
 
@@ -104,4 +117,5 @@ FSM에서는 `curr_state`는 상태 전이 판별(즉, 조건 검사)에 사용�
 >예측 가능성에 결정적인 영향을 미칠 수 있다는 점을 깨달았습니다.
 >이는 단순한 타이밍 차이를 넘어서, 하드웨어 설계자가 **회로의 동작 타이밍을 얼마나 정밀하게 이해하고
 제어해야 하는지를** 실감하게 되었습니다.
+
 
