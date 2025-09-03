@@ -59,36 +59,36 @@ assign done = (curr_state == STOP_BIT) && ^parity_check_bit;
 
 ## 4. 시뮬레이션 및 검증 결과
 
-
+### 4.1. FSM Diagram
 ![FSM Diagram](sim_waves/1.FSM_Diagram.jpg)
 해당 프로젝트 FSM의 전체 구조입니다.
 
 ---
-
+### 4.2. Reset test
 ![data=8'b01010101, parity bit=1](sim_waves/2.Reset_test.JPEG)
 `rst_n` 의 assertion 이후 `i_data` 를 송신해도 `curr_state` 는 계속 `IDLE` 이므로 `rst_n`이 제대로 동작함을 알 수 있습니다.
 
 `out_byte=8'b0101_0101 (0x55)`, `parity=1`인 경우 Odd parity 조건을 만족하므로 `done =1`을 출력합니다.
 
 ---
-
+### 4.3. Test_1 (Pass case)
 ![data=8'b0101_0101, parity bit=1](sim_waves/3.Test_1.JPEG)
 `start_bit` 후에 1byte의 데이터 0x55 (8'b0101_0101) 수신 확인 및 odd parity check pass 했으므로 `done` 을 assertion 한 것을 확인할 수 있습니다.
 
 ---
-
+### 4.4. Test_2 (Pass case)
 ![data=8'b1010_1010, parity=1](sim_waves/4.Test_3.JPEG)
 `start_bit` 후에 1byte의 데이터 0xaa (8'b1010_1010) 수신 확인 및 odd parity check pass 했으므로 `done` 을 assertion 한 것을 확인할 수 있습니다.
 
 ---
-
+### 4.5. Test_3 (Fail case : odd parity check fail)
 ![data=8'b0000_0001, parity=0](sim_waves/5.Test_4.JPEG)
 `start_bit` 후에 1byte의 데이터 0x01 (8'b0000_0001) 수신 확인, odd parity check fail 했으므로 `done` 을 de-assertion 한 것을 확인할 수 있습니다.
 
 {out_byte, parity} = 9'b0_0000_0011  odd parity check fail
 
 ---
-
+### 4.6. Test_4 (Fail case : wrong stop bit received)
 ![data=8'b1111_0000, parity=1](sim_waves/6.Test_5.JPEG)
 `start_bit` 후에 1byte의 데이터 0xf0 (8'b1111_0000) 수신 확인, odd parity check pass 했지만 잘못된 `stop_bit`가 수신되었기 때문에 `WAIT`로 전이(transition)하고 `done`을 de-assertion 한 것을 확인할 수 있습니다.
 
@@ -117,5 +117,6 @@ FSM에서는 `curr_state`는 상태 전이 판별(즉, 조건 검사)에 사용�
 >예측 가능성에 결정적인 영향을 미칠 수 있다는 점을 깨달았습니다.
 >이는 단순한 타이밍 차이를 넘어서, 하드웨어 설계자가 **회로의 동작 타이밍을 얼마나 정밀하게 이해하고
 제어해야 하는지를** 실감하게 되었습니다.
+
 
 
