@@ -1,5 +1,5 @@
-xvlog ./src/*.v ./tb/tb_Serial_Receiver_Parity.v 
-#xelab testbench -s testbench
-#xsim testbench -R
-xelab testbench --debug wave
-xsim testbench -gui -wdb sim_tb.wdb -tclbatch sgdh_sim.tcl & 
+xvlog -sv ./src/*.sv ./tb/*.v 
+#xelab tb_Serial_Rx_Parity -s tb_Serial_Rx_Parity
+#xsim tb_Serial_Rx_Parity -R
+xelab tb_Serial_Rx_Parity --debug wave
+xsim tb_Serial_Rx_Parity -gui -wdb sim_tb.wdb -tclbatch sim.tcl & 
