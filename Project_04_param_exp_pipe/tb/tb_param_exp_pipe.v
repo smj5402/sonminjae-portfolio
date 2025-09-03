@@ -17,7 +17,7 @@ wire [63:0] o_data;
 // Instantiate DUT
 param_exp_pipe # ( 
     .LATENCY    (`LATENCY),
-    .TEST_TIMES (`MAX_INPUT_VALUE)
+    .MAX_INPUT_VALUE (`MAX_INPUT_VALUE)
     ) pipeline_inst1 (
     .clk        (clk),
     .rst_n      (rst_n),

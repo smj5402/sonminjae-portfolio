@@ -1,0 +1,5 @@
+xvlog ./src/*.v ./tb/*.v 
+#xelab tb_Serial_Rx_Parity -s tb_Serial_Rx_Parity
+#xsim tb_Serial_Rx_Parity -R
+xelab tb_Digital_clock --debug wave
+xsim tb_Digital_clock -gui -wdb sim_tb.wdb -tclbatch sim.tcl & 

@@ -4,10 +4,11 @@
 
 module true_dpbram #(
 	parameter DATA_WIDTH = 16,
-	parameter ADDR_WIDTH = $clog2(MEM_SIZE),
-	parameter MEM_SIZE = 4095 // 2^12-1
+    parameter MEM_SIZE = 4095, // 2^12-1
+	parameter ADDR_WIDTH = $clog2(MEM_SIZE)
 	)(
     input clk, // clock input
+    input rst_n, // Active-low reset
     // Memory Interface
 	input en0,en1, // Enable signals for port 0 and port 1
     input we0,we1, // Write enable for  port 0 and port 1
