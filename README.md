@@ -4,7 +4,7 @@ Verilog / SystemVerilog 기반 디지털 설계 및 FPGA 프로젝트 코드 저
 각 프로젝트의 아키텍처 설명, 설계 과정, 시뮬레이션 결과 및 파형 분석은 아래 Notion 포트폴리오에 정리되어 있습니다.
 
 📄 **Portfolio (Notion)**  
-(https://www.notion.so/Digital-Hardware-RTL-Portfolio-1e76fc7a05ce83758b45017ce54b31e3)
+[Notion 이력서 링크](https://www.notion.so/Digital-Hardware-RTL-Portfolio-1e76fc7a05ce83758b45017ce54b31e3)
 
 
 ---
@@ -17,10 +17,10 @@ Verilog를 사용하여 RV32I ISA 기반 single-cycle processor를 구현하였�
 Instruction Fetch, Decode, Execute 구조를 설계하고 Vivado simulation을 통해 기능을 검증했습니다.
 
 📂 Code  
-(https://github.com/smj5402/sonminjae-portfolio/tree/main/RISC-V%20RV32I%20ISA%20%EA%B8%B0%EB%B0%98%20Single-Cycle%20Processor%20%EC%84%A4%EA%B3%84)
+[Github repo 링크](https://github.com/smj5402/sonminjae-portfolio/tree/main/RISC-V%20RV32I%20ISA%20%EA%B8%B0%EB%B0%98%20Single-Cycle%20Processor%20%EC%84%A4%EA%B3%84)
 
 📄 Documentation  
-(https://www.notion.so/RISC-V-RV32I-ISA-Single-Cycle-Processor-2dc6fc7a05ce80ad8fc4f0b1310b3dd6)
+[Notion 프로젝트 링크](https://www.notion.so/RISC-V-RV32I-ISA-Single-Cycle-Processor-2dc6fc7a05ce80ad8fc4f0b1310b3dd6)
 
 
 ---
@@ -59,3 +59,4 @@ Custom IP를 제작하여 I2C 및 SPI 통신을 구현하고 동작을 검증했
 
 현재 FPGA 기반 영상처리 가속기 프로젝트를 진행 중이며  
 완료 후 코드 및 문서를 업로드할 예정입니다.
+
