@@ -15,7 +15,6 @@ Vivado Block Design 환경에서 MicroBlaze 기반 SoC를 구성하고
 Custom IP를 제작하여 I2C 및 SPI 통신을 구현하고 동작을 검증했습니다.
 
 📂 Code
-
 [GitHub repo 링크](https://github.com/smj5402/sonminjae-portfolio/tree/main/MicroBlaze%20%EA%B8%B0%EB%B0%98%20SoC%20%EC%84%A4%EA%B3%84%20%EB%B0%8F%20I2CSPI%20Custom%20IP%20%ED%86%B5%EC%8B%A0%20%EA%B2%80%EC%A6%9D)
 
 📄 Documentation  
@@ -55,6 +54,7 @@ Bus transaction 및 동작을 simulation을 통해 검증했습니다.
 
 
 ---
+
 
 
 
