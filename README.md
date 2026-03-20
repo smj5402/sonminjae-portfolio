@@ -12,10 +12,10 @@ Verilog / SystemVerilog 기반 디지털 설계 및 FPGA 프로젝트 코드 저
 
 # Projects
 
-## 1. RISC-V Multi-Cycle Processor & AMBA APB Bus 구현 및 검증
+## 1. FPGA Based Adaptive Digital Night Vision System
+Real-time 320×240 QVGA ISP Pipeline 설계
 
-Multi-cycle CPU architecture를 설계하고 AMBA APB 버스를 구현하여 peripheral 통신 구조를 설계했습니다.  
-Bus transaction 및 동작을 simulation을 통해 검증했습니다.
+저조도 환경에서 저가형 카메라만으로 물체 윤곽선을 실시간 추출하는 FPGA 기반 야간 시야 확보 시스템을 설계했습니다.
 
 📂 Code  
 [Github repo 링크]()
