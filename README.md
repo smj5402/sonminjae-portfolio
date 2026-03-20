@@ -1,4 +1,4 @@
-# Digital Design / FPGA Portfolio
+# Digital Design / Verification Portfolio
 
 Verilog / SystemVerilog 기반 디지털 설계 및 FPGA 프로젝트 코드 저장소입니다.  
 각 프로젝트의 아키텍처 설명, 설계 과정, 시뮬레이션 결과 및 파형 분석은 아래 Notion 포트폴리오에 정리되어 있습니다.
