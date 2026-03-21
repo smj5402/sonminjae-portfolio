@@ -20,7 +20,7 @@
 
 | 팀원 | 담당 역할 |
 |------|-----------|
-| **손민재** (팀장)       | 시스템 아키텍쳐 설계 · SPI 통신 · Async FIFO 설계 · UART 설계 및 검증 · Line Buffer 알고리즘 · UVM 검증 · Coverage 분석 |
+| **손민재** (팀장)       |시스템 아키텍쳐 설계 및 통합 · ISP 파이프라인 제어 로직 설계 · 통신 프로토콜 UVM 검증 · Coverage 분석 및 충족 · HW 테스트 및 최적화 |
 | **박인범** | SCCB 설계 및 레지스터 제어 · Servo Motor Driver · Temporal Accumulation · Scharr Filter · Histogram Stretching |
 | **오수혁** |  FPGA Timing Closure · Gaussian Filter · 초음파 센서 Driver |
 | **최무영** | Gamma Correction · Median Filter · Radar 알고리즘 및 Overlay 설계 · HW 테스트 및 최적화 |
