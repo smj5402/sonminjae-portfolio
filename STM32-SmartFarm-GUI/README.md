@@ -44,7 +44,7 @@ STM32 마이크로컨트롤러와 Python GUI를 UART 프로토콜로 연동하�
 ## 📡 UART 패킷 구조
 
 
-![Packet_structure](doc/Packet_structure/UART_Packet.png)
+![Packet_structure](doc/Packet_structure/UART_Packet_.png)
 
 
 ### CMD 코드 요약
