@@ -27,6 +27,11 @@ STM32 마이크로컨트롤러와 Python GUI를 UART 프로토콜로 연동하�
 | **게임 시스템** | 가상 펫(알→애벌레→번데기→나비) — 환경에 따라 HP 변동 |
 
 ---
+## 하드웨어 구성
+
+![Hardware](doc/Hardware/Hardware.png)
+
+---
 
 ## 🏗️ 시스템 아키텍처
 
@@ -38,10 +43,9 @@ STM32 마이크로컨트롤러와 Python GUI를 UART 프로토콜로 연동하�
 
 ## 📡 UART 패킷 구조
 
-```
-| SOF  | LEN | CMD | PAYLOAD (가변) | CRC8 |
-| 0xAA |     |     |                |      |
-```
+
+![Packet_structure](doc/Packet_structure/UART_Packet.png)
+
 
 ### CMD 코드 요약
 
