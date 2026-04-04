@@ -12,7 +12,7 @@ Verilog / SystemVerilog 기반 디지털 설계 및 FPGA 프로젝트 코드 저
 
 # Projects
 
-## 2. STM32 Based Smart Farm System
+## 1. STM32 Based Smart Farm System
 STM32 MCU와 Python GUI를 UART 패킷 통신으로 연동한 다중 구역 스마트팜 관리 시스템을 구현했습니다.
 
 + DHT11 센서 기반 3구역 독립 온·습도 측정
