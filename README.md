@@ -18,7 +18,7 @@ Real-time 320×240 QVGA ISP Pipeline 설계
 저조도 환경에서 저가형 카메라만으로 물체 윤곽선을 실시간 추출하는 FPGA 기반 야간 시야 확보 시스템을 설계했습니다.
 
 📂 Code  
-[Github repo 링크]()
+[Github repo 링크](https://github.com/smj5402/sonminjae-portfolio/tree/main/Dual-FPGA-Real-Time-Digital-Night-Vision-System)
 
 📄 Documentation  
 [Notion 프로젝트 링크](https://www.notion.so/Image-Processing-Team-Project-3236fc7a05ce800a87c4faffc66cb849?source=copy_link)
