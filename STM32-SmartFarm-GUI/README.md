@@ -31,20 +31,7 @@ STM32 마이크로컨트롤러와 Python GUI를 UART 프로토콜로 연동하�
 ## 🏗️ 시스템 아키텍처
 
 ```
-┌─────────────────────────────────────────┐
-│         Application / Service Layer      │
-│   TempHumid_SVC │ RtcClock_SVC │ Fan_SVC │
-├─────────────────────────────────────────┤
-│                Driver Layer              │
-│  DHT11 │ LCD │ Button │ LED │ Motor      │
-│  UART_COM │ UART_PROTO │ RTC            │
-├─────────────────────────────────────────┤
-│                  HAL Layer               │
-│   GPIO │ I2C │ UART │ RTC │ TIMER │ DWT │
-├─────────────────────────────────────────┤
-│              Device Hardware             │
-│  DHT11 │ LCD │ LED │ Button │ DC Motor  │
-└─────────────────────────────────────────┘
+![Layered_Architecture](doc/System_Architecture/layered_architecture.png)
 ```
 
 ---
