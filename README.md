@@ -12,7 +12,24 @@ Verilog / SystemVerilog 기반 디지털 설계 및 FPGA 프로젝트 코드 저
 
 # Projects
 
-## 1. FPGA Based Adaptive Digital Night Vision System
+## 2. STM32 Based Smart Farm System
+STM32 MCU와 Python GUI를 UART 패킷 통신으로 연동한 다중 구역 스마트팜 관리 시스템을 구현했습니다.
+
++ DHT11 센서 기반 3구역 독립 온·습도 측정
++ I2C LCD, TIM3 PWM FAN 제어 (AUTO / MANUAL 모드)
++ SOF / LEN / CMD / Payload / CRC8 구조의 커스텀 UART 패킷 설계
++ DMA + ReceiveToIdle 방식으로 CPU 부하 최소화
++ Python GUI 양방향 실시간 모니터링 및 제어
+
+📂 Code  
+[Github repo 링크](https://github.com/smj5402/sonminjae-portfolio/tree/main/STM32-SmartFarm-GUI)
+
+📄 Documentation  
+[Notion 프로젝트 링크](https://www.notion.so/STM32-SmartFarm-3346fc7a05ce811090d6fcfcb7c3b0fa?source=copy_link)
+
+---
+
+## 2. FPGA Based Adaptive Digital Night Vision System
 Real-time 320×240 QVGA ISP Pipeline 설계
 
 저조도 환경에서 저가형 카메라만으로 물체 윤곽선을 실시간 추출하는 FPGA 기반 야간 시야 확보 시스템을 설계했습니다.
@@ -25,7 +42,7 @@ Real-time 320×240 QVGA ISP Pipeline 설계
 
 ---
 
-## 2. MicroBlaze 기반 SoC 설계 및 I2C / SPI Custom IP 통신 검증
+## 3. MicroBlaze 기반 SoC 설계 및 I2C / SPI Custom IP 통신 검증
 
 Vivado Block Design 환경에서 MicroBlaze 기반 SoC를 구성하고  
 Custom IP를 제작하여 I2C 및 SPI 통신을 구현하고 동작을 검증했습니다.
@@ -39,7 +56,7 @@ Custom IP를 제작하여 I2C 및 SPI 통신을 구현하고 동작을 검증했
 
 ---
 
-## 3. RISC-V Multi-Cycle Processor & AMBA APB Bus 구현 및 검증
+## 4. RISC-V Multi-Cycle Processor & AMBA APB Bus 구현 및 검증
 
 Multi-cycle CPU architecture를 설계하고 AMBA APB 버스를 구현하여 peripheral 통신 구조를 설계했습니다.  
 Bus transaction 및 동작을 simulation을 통해 검증했습니다.
@@ -53,7 +70,7 @@ Bus transaction 및 동작을 simulation을 통해 검증했습니다.
 
 ---
 
-## 4. RISC-V RV32I ISA 기반 Single-Cycle Processor 설계
+## 5. RISC-V RV32I ISA 기반 Single-Cycle Processor 설계
 
 Verilog를 사용하여 RV32I ISA 기반 single-cycle processor를 구현하였습니다.  
 Instruction Fetch, Decode, Execute 구조를 설계하고 Vivado simulation을 통해 기능을 검증했습니다.
