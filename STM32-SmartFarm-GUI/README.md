@@ -31,7 +31,7 @@ STM32 마이크로컨트롤러와 Python GUI를 UART 프로토콜로 연동하�
 ## 🏗️ 시스템 아키텍처
 
 ```
-![Layered_Architecture](doc/System_Architecture/layered_architecture.png)
+![Layered_Architecture](../doc/System_Architecture/layered_architecture.png)
 ```
 
 ---
