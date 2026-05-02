@@ -20,13 +20,9 @@
 
 | 팀원 | 담당 역할 |
 |------|-----------|
-<<<<<<< HEAD
-| **손민재** (팀장)       |시스템 아키텍쳐 설계 및 통합 · ISP 파이프라인 제어 로직 설계 · 통신 프로토콜 UVM 검증 · Coverage 분석 및 충족 · HW 테스트 및 최적화 |
-=======
-| **손민재**        | 시스템 아키텍쳐 설계 및 통합 · UART, SPI 설계 및 검증 · Async FIFO 설계 · Master-Slave board간 통신 · UVM 검증 및 Coverage 분석 |
->>>>>>> 81d48823f8636228d0604ad908c761a5e9bdbe0e
+| **오수혁** (팀장)       |FPGA Timing Closure · Gaussian Filter · 초음파 센서 Driver · 3단 Ping Pong buffer 설계 · Line Buffer 알고리즘 |
 | **박인범** | SCCB 설계 및 레지스터 제어 · Servo Motor Driver · Temporal Accumulation · Scharr Filter · Histogram Stretching |
-| **오수혁** |  FPGA Timing Closure · Gaussian Filter · 초음파 센서 Driver · 3단 Ping Pong buffer 설계 · Line Buffer 알고리즘 |
+| **손민재** | 시스템 아키텍쳐 설계 및 통합 · ISP 파이프라인 제어 로직 설계 · 통신 프로토콜 UVM 검증 · Coverage 분석 및 충족 · HW 테스트 및 최적화
 | **최무영** | Gamma Correction · Median Filter · Radar 알고리즘 및 Overlay 설계 · HW 테스트 및 최적화 |
 
 ---
